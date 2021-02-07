@@ -9,8 +9,10 @@ const ENV_BASE_URL = {
 	production: 'https://box.softtiny.com', //生产环境
 }
 const ENV_API_URL = {
-	development: `${ENV_BASE_URL.development}/addons/shopro/`, //开发环境
-	production: `${ENV_BASE_URL.production}/addons/shopro/`, //生产环境
+	// development: `${ENV_BASE_URL.development}/addons/shopro/`, //开发环境
+	// production: `${ENV_BASE_URL.production}/addons/shopro/`, //生产环境
+	development: `${ENV_BASE_URL.development}/api/v1/`, //开发环境
+	production: `${ENV_BASE_URL.production}/api/v1/`, //生产环境
 }
 
 export const BASE_URL = ENV_BASE_URL[process.env.NODE_ENV || 'development']; //后台根域名

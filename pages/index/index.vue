@@ -74,7 +74,7 @@
 			<!-- 关注弹窗 -->
 			<!-- <shopro-float-btn></shopro-float-btn> -->
 			<!-- 连续弹窗提醒 -->
-			<shopro-notice-modal v-if="!showPrivacy && showNoticeModal"></shopro-notice-modal>
+			<!-- <shopro-notice-modal v-if="!showPrivacy && showNoticeModal"></shopro-notice-modal> -->
 			<!-- 隐私协议 -->
 			<!-- #ifdef APP-PLUS -->
 			<view class="modal-wrap">

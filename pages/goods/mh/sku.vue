@@ -6,46 +6,26 @@
         <div style="font-weight:bold;color:#fff;font-size:16px;">{{title}}</div>
       </div>
 			<view class="count-down">
-				<image src="../../static/image/icon2.png" mode="aspectFit"></image>
+				<image src="/static/imgs/timer.png" mode="aspectFit"></image>
 				<text>剩余抽盒时间：</text>
 				<text class="num">123s</text>
 			</view>
 			<view class="box-content">
 				<view class="top">
-					<image src="../../static/image/icon1.png" mode="aspectFit"></image>
+					<image src="/static/imgs/shake.png" mode="aspectFit"></image>
 					<text>摇一摇盲盒</text>
 				</view>
 				<view class="box">
-					<image src="../../static/image/box.png" mode="aspectFit"></image>
+					<image :src="image" mode="aspectFit"></image>
 				</view>
 				<text class="box-id">NO.123457·5</text>
 			</view>
 			<view class="scroll">
 				<scroll-view scroll-x="true" >
 					<view class="box">
-						<view class="item">
-							<image src="../../static/image/temp10.png" mode="aspectFit"></image>
-							<view class="text">小飞象</view>
-						</view>
-						<view class="item">
-							<image src="../../static/image/temp10.png" mode="aspectFit"></image>
-							<view class="text">小飞象</view>
-						</view>
-						<view class="item">
-							<image src="../../static/image/temp10.png" mode="aspectFit"></image>
-							<view class="text">小飞象</view>
-						</view>
-						<view class="item">
-							<image src="../../static/image/temp10.png" mode="aspectFit"></image>
-							<view class="text">小飞象</view>
-						</view>
-						<view class="item">
-							<image src="../../static/image/temp10.png" mode="aspectFit"></image>
-							<view class="text">小飞象</view>
-						</view>
-						<view class="item">
-							<image src="../../static/image/temp10.png" mode="aspectFit"></image>
-							<view class="text">小飞象</view>
+						<view class="item" v-for="(i,inx) in skus" :key="inx">
+							<image :src="i.image" mode="aspectFit"></image>
+							<view class="text">{{i.goods_sku_text}}</view>
 						</view>
 					</view>
 				</scroll-view>
@@ -72,7 +52,7 @@
 		<view class="shade" v-if="showShade1" @click="hideShade()">
 			<view class="con shade1" v-if="showShade1" @click.stop="clickStop">
 				<view class="title">
-					哈利·波特魔法动物系列
+					{{curSku.goods_sku_text}}
 				</view>
 				<view class="box">
 					<view class="item">
@@ -81,16 +61,16 @@
 						</view>
 						<view class="value">
 							<view class="text">
-								59元
+								{{curSku.price}}元
 							</view>
 						</view>
 					</view>
-					<view class="item">
+					<view class="item" style="align-items:center;">
 						<view class="lable">
 							数量：
 						</view>
 						<view class="value">
-							<uni-number-box :max="99" :min="1" :value="1" :disabled="true" ></uni-number-box>
+							<uni-number-box :max="99" :min="0" :value="curSku.count" />
 						</view>
 					</view>
 					<view class="item">
@@ -99,7 +79,7 @@
 						</view>
 						<view class="value">
 							<view class="text">
-								59元
+								{{total}}元
 							</view>
 						</view>
 					</view>
@@ -159,7 +139,14 @@
 
 				address: {
 					is_default: 0
-				}
+				},
+				curSku: {
+					count: 0,
+				},
+				title: '',
+				image: '',
+				skus: [],
+				total: '0.00'
 			};
 		},
 		methods:{
@@ -189,7 +176,7 @@
 					
 				}else if (type==2){
 					this.showShade1=false
-					console.log('..')
+					this.createOrder()
 				}
 			},
 			clickStop(){},
@@ -199,10 +186,12 @@
           id: that.$Route.query.id
         }).then(res => {
           if (res.code === 1) {
-            let { title, sku_price, image} = res.data
+            let { title, sku_price, image, } = res.data
             this.title = title
             this.skus = sku_price
             this.image = image
+
+						this.curSku = {...this.skus.find(i => i.id == this.$Route.query.sId), count: 1}
           }
           if (res.code == 0) {
             that.$tools.toast(res.msg);
@@ -218,13 +207,122 @@
 					}
 				});
 			},
+			createOrder() {
+				if (!this.address.id) {
+					uni.showToast({
+						title: '还没有选择配送地址呢',
+						icon: 'none'
+					})
+					return
+				}
+				this.$api('order.createOrder', {
+					goods_list: [{
+						dispatch_type: "express",
+						goods_id: this.curSku.goods_id,
+						goods_num: this.curSku.count,
+						goods_price: this.curSku.price,
+						// sku_price_id: this.curSku.id,
+					}],
+					from: 'alone', // that.from,
+					address_id: this.address.id,
+					coupons_id: 0, //that.couponId,
+					remark: '',
+					order_type: 'goods', // that.orderType,
+					buy_type: 'buy_type', //that.grouponBuyType,
+					// groupon_id: that.grouponId
+				}).then(r => {
+					let params = {
+						order_sn: r.data.order_sn,
+						payment: 'wechat'
+					}
+					if (uni.getStorageSync('openid')) {
+						params.openid = uni.getStorageSync('openid');
+					}
+					this.$api('pay.prepay', params).then(res => {
+						if (res.code === 1) {
+							if (res.data === 'no_openid') {
+								uni.hideLoading();
+								uni.showModal({
+									title: '微信支付',
+									content: '点击确定后请再次使用微信支付',
+									success: function(res) {
+										if (res.confirm) {
+											//静默获取openid
+											let wechat = new Wechat();
+											wechat.wxOfficialAccountBaseLogin();
+										} else if (res.cancel) {
+											console.log('用户点击取消');
+										}
+									},
+									fail: (err) => {
+										uni.hideLoading();
+									}
+								});
+
+							} else {
+								uni.hideLoading();
+								let payData = res.data.pay_data
+								uni.requestPayment({
+									provider: 'wxpay',
+									timeStamp: payData.timeStamp,
+									nonceStr: payData.nonceStr,
+									package: payData.package,
+									signType: payData.signType,
+									paySign: payData.paySign,
+									success: _ => {
+										this.$Router.replace({
+											path: '/pages/order/payment/result',
+											query: {
+												orderSn: r.data.order_sn,
+												type: 'wechat',
+												pay: 1
+											}
+										});
+										// uni.navigateBack()
+									},
+									fail: err => {
+										console.log('支付取消或者失败:', err);
+										if (err.errMsg !== "requestPayment:fail cancel") {
+											this.$Router.replace({
+												path: '/pages/order/payment/result',
+												query: {
+													orderSn: r.data.order_sn,
+													type: 'wechat',
+													pay: 0
+												}
+											});
+										}
+									}
+								});
+							}
+						} else {
+							uni.hideLoading();
+							uni.showToast({
+								title: res.msg,
+								icon: 'none'
+							})
+						}
+					})
+						})
+			},
+			getTotal() {
+				let t = this.curSku.count * this.curSku.price
+				this.total = t.toFixed(2)
+			}
 		},
 		computed: {
       ...mapState('device', ['navBarHeight', 'navBarPadding']),
       ...mapState({
         userInfo: state => state.user.userInfo
-      })
-    }
+      }),
+    },
+		watch: {
+			'curSku.count': {
+				handler() {
+					this.getTotal()
+				}
+			}
+		}
 	}
 </script>
 

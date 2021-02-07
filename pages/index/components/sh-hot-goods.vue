@@ -5,7 +5,19 @@
       <img src="/static/imgs/qbsp.jpg" style="height:60rpx;" mode='heightFix' alt="">
     </div>
 		<view class="goods-list x-f">
-			<view class="goods-item" v-if="goods.id" v-for="goods in goodsList" :key="goods.id"><shopro-goods-card :detail="goods" :isTag="true"></shopro-goods-card></view>
+			<view class="goods-item" v-if="goods.id" v-for="goods in goodsList" :key="goods.id">
+				<!-- <shopro-goods-card :detail="goods" :isTag="true"></shopro-goods-card> -->
+				<div style="background:#fff;" @click="jump('/pages/goods/mh/home', { id: goods.id })">
+					<img :src="goods.image" style="width:345rpx;height:345rpx" />
+					<div class="flex align-center" style="padding:0 20rpx;">
+						<div style="flex:1;">
+							<div style="font-size:28rpx;font-weight:bold;">{{goods.title}}</div>
+							<div style="font-size:26rpx;color:#444;">{{goods.subtitle}}</div>
+						</div>
+						<div style="font-size: 30rpx;font-weight: bold;color: #F97309;">￥{{goods.price}}</div>
+					</div>
+				</div>
+			</view>
 		</view>
 		<button v-if="total > perPage" class="cu-btn refresh-btn my20 x-f" @tap.stop="loadMore">
 			<text class="cuIcon-refresh" :class="{ 'refresh-active': isRefresh }"></text>
@@ -81,6 +93,13 @@ export default {
 					this.getGoodsList();
 				}
 			}
+		},
+
+		jump(path, parmas) {
+			this.$Router.push({
+				path: path,
+				query: parmas
+			});
 		}
 	}
 };

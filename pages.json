@@ -640,134 +640,134 @@
 				// 定单 order ------end
 			]
 		},
-		{
-			"root": "pages/public",
-			"pages": [
-				// 公共public ------ start
+		// {
+		// 	"root": "pages/public",
+		// 	"pages": [
+		// 		// 公共public ------ start
 
-				{
-					"path": "kefu/index",
-					"name": "kefu",
-					"style": {
-						"navigationBarTitleText": "",
-						"navigationStyle": "custom",
-						"navigationBarTextStyle": "white",
-						"app-plus": {
-							"softinputNavBar": "none",
-							"softinputMode": "adjustResize"
-						}
-					},
-					"meta": {
-						"auth": true,
-						"async": true,
-						"title": "客服",
-						"group": "通用"
-					}
-				},
-				{
-					"path": "richtext",
-					"style": {
-						"navigationBarTitleText": "" //公共富文本
+		// 		{
+		// 			"path": "kefu/index",
+		// 			"name": "kefu",
+		// 			"style": {
+		// 				"navigationBarTitleText": "",
+		// 				"navigationStyle": "custom",
+		// 				"navigationBarTextStyle": "white",
+		// 				"app-plus": {
+		// 					"softinputNavBar": "none",
+		// 					"softinputMode": "adjustResize"
+		// 				}
+		// 			},
+		// 			"meta": {
+		// 				"auth": true,
+		// 				"async": true,
+		// 				"title": "客服",
+		// 				"group": "通用"
+		// 			}
+		// 		},
+		// 		{
+		// 			"path": "richtext",
+		// 			"style": {
+		// 				"navigationBarTitleText": "" //公共富文本
 
-					},
-					"meta": {
-						"auth": false,
-						"async": true,
-						"title": "富文本",
-						"group": "通用"
-					}
-				},
-				{
-					"path": "webview",
-					"style": {
-						"navigationBarTitleText": "" //外部链接
-					},
-					"meta": {
+		// 			},
+		// 			"meta": {
+		// 				"auth": false,
+		// 				"async": true,
+		// 				"title": "富文本",
+		// 				"group": "通用"
+		// 			}
+		// 		},
+		// 		{
+		// 			"path": "webview",
+		// 			"style": {
+		// 				"navigationBarTitleText": "" //外部链接
+		// 			},
+		// 			"meta": {
 
-					}
-				},
-				{
-					"path": "feedback",
-					"style": {
-						"navigationBarTitleText": "意见反馈"
+		// 			}
+		// 		},
+		// 		{
+		// 			"path": "feedback",
+		// 			"style": {
+		// 				"navigationBarTitleText": "意见反馈"
 
-					},
-					"meta": {
-						"auth": true,
-						"async": true,
-						"title": "意见反馈",
-						"group": "商城"
-					}
-				},
-				{
-					"path": "forgot",
-					"style": {
-						"navigationBarTitleText": "找回密码",
-						"navigationStyle": "custom"
-					},
-					"meta": {
-						"auth": false,
-						"async": true,
-						"title": "找回密码",
-						"group": "用户"
-					}
-				},
-				{
-					"path": "login",
-					"name": "login",
-					"style": {
-						"navigationBarTitleText": "登录",
-						"navigationStyle": "custom"
-					},
-					"meta": {
-						"auth": false,
-						"async": true,
-						"title": "登录",
-						"group": "用户"
-					}
-				},
-				{
-					"path": "register",
-					"style": {
-						"navigationBarTitleText": "注册",
-						"navigationStyle": "custom"
-					},
-					"meta": {
-						"auth": false,
-						"async": true,
-						"title": "注册",
-						"group": "用户"
-					}
-				},
-				{
-					"path": "poster/index",
-					"style": {
-						"navigationBarTitleText": "海报"
+		// 			},
+		// 			"meta": {
+		// 				"auth": true,
+		// 				"async": true,
+		// 				"title": "意见反馈",
+		// 				"group": "商城"
+		// 			}
+		// 		},
+		// 		{
+		// 			"path": "forgot",
+		// 			"style": {
+		// 				"navigationBarTitleText": "找回密码",
+		// 				"navigationStyle": "custom"
+		// 			},
+		// 			"meta": {
+		// 				"auth": false,
+		// 				"async": true,
+		// 				"title": "找回密码",
+		// 				"group": "用户"
+		// 			}
+		// 		},
+		// 		{
+		// 			"path": "login",
+		// 			"name": "login",
+		// 			"style": {
+		// 				"navigationBarTitleText": "登录",
+		// 				"navigationStyle": "custom"
+		// 			},
+		// 			"meta": {
+		// 				"auth": false,
+		// 				"async": true,
+		// 				"title": "登录",
+		// 				"group": "用户"
+		// 			}
+		// 		},
+		// 		{
+		// 			"path": "register",
+		// 			"style": {
+		// 				"navigationBarTitleText": "注册",
+		// 				"navigationStyle": "custom"
+		// 			},
+		// 			"meta": {
+		// 				"auth": false,
+		// 				"async": true,
+		// 				"title": "注册",
+		// 				"group": "用户"
+		// 			}
+		// 		},
+		// 		{
+		// 			"path": "poster/index",
+		// 			"style": {
+		// 				"navigationBarTitleText": "海报"
 
-					},
-					"meta": {
-						"auth": true,
-						"async": true,
-						"title": "海报",
-						"group": "通用"
-					}
-				},
-				{
-					"path": "faq",
-					"style": {
-						"navigationBarTitleText": "常见问题"
+		// 			},
+		// 			"meta": {
+		// 				"auth": true,
+		// 				"async": true,
+		// 				"title": "海报",
+		// 				"group": "通用"
+		// 			}
+		// 		},
+		// 		{
+		// 			"path": "faq",
+		// 			"style": {
+		// 				"navigationBarTitleText": "常见问题"
 
-					},
-					"meta": {
-						"auth": false,
-						"async": true,
-						"title": "常见问题",
-						"group": "通用"
-					}
-				}
-				// 公共public ------ end
-			]
-		},
+		// 			},
+		// 			"meta": {
+		// 				"auth": false,
+		// 				"async": true,
+		// 				"title": "常见问题",
+		// 				"group": "通用"
+		// 			}
+		// 		}
+		// 		// 公共public ------ end
+		// 	]
+		// },
 		{
 			"root": "pages/user",
 			"pages": [
@@ -940,12 +940,12 @@
 		}
 	],
 	// 分包预加载规则
-	"preloadRule": {
-		"pages/index/index": {
-			"network": "all",
-			"packages": ["pages/goods", "pages/user", "pages/activity", "pages/app", "pages/order", "pages/public"]
-		}
-	},
+	// "preloadRule": {
+	// 	"pages/index/index": {
+	// 		"network": "all",
+	// 		"packages": ["pages/goods", "pages/user", "pages/activity", "pages/app", "pages/order"]
+	// 	}
+	// },
 	// 默认导航栏样式
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

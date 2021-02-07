@@ -104,11 +104,12 @@
           }
         });
       },
-			goSku() {
+			goSku(i) {
 				this.$Router.push({
 					path: '/pages/goods/mh/sku',
 					query: {
-						id: this.$Route.query.id
+						id: this.$Route.query.id,
+						sId: i.id
 					}
 				});
 			}
