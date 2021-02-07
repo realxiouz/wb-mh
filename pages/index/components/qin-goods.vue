@@ -5,7 +5,7 @@
       <img src="/static/imgs/xptj.jpg" style="height:60rpx;" mode='heightFix' alt="">
     </div>
     <scroll-view scroll-x>
-      <view class="goods-item" v-for="(item,index) in goodsList" :key="index" @click="detail">
+      <view class="goods-item" v-for="(item,index) in goodsList" :key="index" @click="jump('/pages/goods/mh/home', { id: item.id })">
         <image :src="item.image" mode="aspectFill"></image>
         <view class="text">
           <view class="left">
@@ -85,6 +85,13 @@ export default {
 					this.getGoodsList();
 				}
 			}
+		},
+
+		jump(path, parmas) {
+			this.$Router.push({
+				path: path,
+				query: parmas
+			});
 		}
 	}
 };

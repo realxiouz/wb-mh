@@ -5,8 +5,8 @@
 
 
 const ENV_BASE_URL = {
-	development: 'http://box.softtiny.com', //开发环境
-	production: 'http://box.softtiny.com', //生产环境
+	development: 'https://box.softtiny.com', //开发环境
+	production: 'https://box.softtiny.com', //生产环境
 }
 const ENV_API_URL = {
 	development: `${ENV_BASE_URL.development}/addons/shopro/`, //开发环境

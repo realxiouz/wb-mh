@@ -13,17 +13,15 @@
 					</block>
 				</cu-custom>
 			</view> -->
-			<div :style="{ background: bgcolor, paddingTop: `${20}px` }">
-				<div class="flex align-center" style="height:88rpx;padding:0 30rpx;">
-					<img src="/static/imgs/logo.png" style="height:36rpx;margin-right:10rpx;" mode="heightFix" />
-					<div style="font-weight:text-bold;color:#fff;font-size:16px;">泡泡玛特抽奖机</div>
-				</div>
-				<div class="flex align-center justify-around" style="height:80rpx;">
-					<div>推荐</div>
-					<div>分类</div>
-					<img src="/static/imgs/pppt.png" style="width:76px;" mode="widthFix" alt="">
-					<div>发售日历</div>
-				</div>
+			<div :style="{ background: bgcolor, height: `${navBarHeight}px`, padding: navBarPadding }" class="flex align-center">
+				<img src="/static/imgs/logo.png" style="height:36rpx;margin-right:10rpx;" mode="heightFix" />
+				<div style="font-weight:bold;color:#fff;font-size:16px;">泡泡玛特抽奖机</div>
+			</div>
+			<div :style="{ background: bgcolor}" class="flex align-center justify-around" style="height:80rpx;">
+				<div>推荐</div>
+				<div>分类</div>
+				<img src="/static/imgs/pppt.png" style="width:76px;" mode="widthFix" alt="">
+				<div>发售日历</div>
 			</div>
 			<view class="content_box" style="margin-top: -4rpx;overflow: hidden;">
 				<scroll-view class="scroll-box" scroll-y scroll-with-animation enable-back-to-top>
@@ -74,7 +72,7 @@
 			<!-- 自定义底部导航 -->
 			<shopro-tabbar></shopro-tabbar>
 			<!-- 关注弹窗 -->
-			<shopro-float-btn></shopro-float-btn>
+			<!-- <shopro-float-btn></shopro-float-btn> -->
 			<!-- 连续弹窗提醒 -->
 			<shopro-notice-modal v-if="!showPrivacy && showNoticeModal"></shopro-notice-modal>
 			<!-- 隐私协议 -->
@@ -190,6 +188,7 @@ export default {
 			cartNum: state => state.cart.cartNum,
 			forceOauth: state => state.user.forceOauth
 		}),
+    ...mapState('device', ['navBarHeight', 'navBarPadding']),
 		popupIndex() {
 			if (this.initData.popup) {
 				return this.initData.popup.content.index;

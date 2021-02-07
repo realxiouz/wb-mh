@@ -68,6 +68,7 @@ export default {
 		}
 	},
 	onLaunch: async function(options) {
+		this.$store.dispatch('device/setDeviceInfo')
 		let that = this;
 		if (options.query.mode === 'save') {
 			//截图模式

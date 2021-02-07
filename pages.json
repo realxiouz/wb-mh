@@ -437,6 +437,30 @@
 						"title": "商品详情",
 						"group": "商城"
 					}
+				},
+				{
+					"path": "mh/home",
+					"style": {
+						"navigationStyle": "custom"
+					},
+					"meta": {
+						"auth": false,
+						"async": true,
+						"title": "商品详情",
+						"group": "商城"
+					}
+				},
+				{
+					"path": "mh/sku",
+					"style": {
+						"navigationStyle": "custom"
+					},
+					"meta": {
+						"auth": false,
+						"async": true,
+						"title": "商品详情",
+						"group": "商城"
+					}
 				}
 				// 商品goods------end
 
