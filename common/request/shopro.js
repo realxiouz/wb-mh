@@ -534,11 +534,22 @@ export default {
 			method: 'POST',
 			// desc: '提交订单',
 		},
+		virtual: {
+			url: 'order/virtual',
+			auth: true,
+			method: 'POST',
+			// desc: '提交订单',
+		},
 		detail: {
 			url: 'order/detail',
 			auth: true,
 			method: 'GET',
 			// desc: '订单详情',
+		},
+		other: {
+			url: 'order/detailOther',
+			auth: true,
+			method: 'GET',
 		},
 		itemDetail: {
 			url: 'order/itemDetail',

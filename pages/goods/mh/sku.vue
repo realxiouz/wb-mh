@@ -70,7 +70,7 @@
 							数量：
 						</view>
 						<view class="value">
-							<uni-number-box :max="99" :min="0" :value="curSku.count" />
+							<uni-number-box :max="99" :min="0" v-model="count" @change="onChange" />
 						</view>
 					</view>
 					<view class="item">
@@ -83,7 +83,15 @@
 							</view>
 						</view>
 					</view>
-					<view class="address" v-if="type==2" @click="chooseAddress">
+					<div class="item" v-if="type==1">
+						<view class="lable">
+							秘钥：
+						</view>
+						<div class="value">
+							<input type="text" placeholder="输入秘钥" v-model="addressMy">
+						</div>
+					</div>
+					<view class="address" @click="chooseAddress">
 						<view class="left" v-if="address.id">
 							<view class="t1">
 								{{`${address.consignee} ${address.phone}`}}
@@ -109,28 +117,74 @@
 							</view>
 						</view>
 					</view>
+
+					
+					
 				</view>
 				<view class="btn-group">
-					<view class="btn1" @click.stop="hideShade1(1)" v-if="type==2">他人付款</view>
-					<view class="btn2" @click.stop="hideShade1(2)">确认上述信息并支付</view>
+					<button @click="payByOther" class="btn1" style="margin:0;" v-if="type==2">他人付款</button>
+					<view class="btn2" @click.stop="hideShade1(type)">确认上述信息并支付</view>
 				</view>
 			</view>
 		</view>
 		
+		<shopro-modal v-model="show">
+			<div slot="modalContent">
+				<div style="background:#fff;padding: 0 24rpx;">
+					<div style="padding:24rpx 0;font-weight:bold;font-size:16px;">温馨提示</div>
+					<div style="font-size:14px;color:#666;padding: 0 0 24rpx 0;">订单已生成,点击按钮,让Ta帮你付款吧~~~</div>
+					<button
+						style="height:80rpx;width:260rpx;border-radius:40rpx;background:#FDC204;font-size:12px;color:#fff;margin:0 auto;border:none;"
+					 	open-type="share" class="reset flex align-center justify-around" @click="show=false">发给Ta</button>
+					<div style="height:36rpx;"></div>
+				</div>
+			</div>
+		</shopro-modal>
+
+		<shopro-modal v-model="showOtherBuy" modalType='bottom-modal'>
+			<div slot="modalContent">
+				<div style="background:#fff;padding: 0 24rpx;">
+					<div style="padding:24rpx 0;font-weight:bold;font-size:16px;">{{otherPayInfo.consignee}}请你送Ta一个玩偶</div>
+
+					<view class="address" style="text-align:left;">
+						<view class="left">
+							<view class="t1">
+								{{`${otherPayInfo.consignee} ${otherPayInfo.phone}`}}
+							</view>
+							<view class="t2">
+								{{`${otherPayInfo.province_name}${otherPayInfo.city_name}${otherPayInfo.area_name}${otherPayInfo.address}`}}
+							</view>
+						</view>
+					</view>
+					<div style="font-size:14px;color:#666;margin-bottom:24rpx;"><span style="font-weight:bold;color:#333;">总价:</span>{{otherPayInfo.total_fee}}</div>
+					<div @click="doOtherPay" class="flex align-center justify-around"
+						style="height:80rpx;width:260rpx;border-radius:40rpx;background:#FDC204;font-size:12px;color:#fff;margin:0 auto;">
+						确认赠送给Ta
+					</div>
+					<div style="height:32px"></div>
+				</div>
+			</div>
+		</shopro-modal>
 	</view>
 </template>
 
 <script>
 	import uniNumberBox from "@/components/uni-number-box/uni-number-box.vue"
   import { mapState } from 'vuex';
+	import Wechat from '@/common/wechat/wechat' 
+
 
 	export default {
 		onLoad(opt) {
       this.getGoodsDetail()
 			this.getDefaultAddress()
+
+			if (this.$Route.query.orderSn) {
+				this.getPayInfo()
+			}
     },
 		components:{
-			uniNumberBox
+			uniNumberBox,
 		},
 		data() {
 			return {
@@ -140,13 +194,17 @@
 				address: {
 					is_default: 0
 				},
-				curSku: {
-					count: 0,
-				},
+				curSku: {},
 				title: '',
 				image: '',
 				skus: [],
-				total: '0.00'
+				total: '0.00',
+				count: 1,
+
+				show: false,
+				showOtherBuy: false,
+				otherPayInfo: {},
+				addressMy: ''
 			};
 		},
 		methods:{
@@ -173,7 +231,15 @@
 			},
 			hideShade1(type){
 				if(type==1){
-					
+					if (!this.addressMy.trim()) {
+						uni.showToast({
+							title: '必须输入虚拟秘钥',
+							icon: 'none'
+						})
+						return
+					}
+					this.showShade1=false
+					this.useVirtual()
 				}else if (type==2){
 					this.showShade1=false
 					this.createOrder()
@@ -219,7 +285,7 @@
 					goods_list: [{
 						dispatch_type: "express",
 						goods_id: this.curSku.goods_id,
-						goods_num: this.curSku.count,
+						goods_num: this.count,
 						goods_price: this.curSku.price,
 						// sku_price_id: this.curSku.id,
 					}],
@@ -306,8 +372,199 @@
 						})
 			},
 			getTotal() {
-				let t = this.curSku.count * this.curSku.price
+				let t = this.count * this.curSku.price
 				this.total = t.toFixed(2)
+			},
+			onChange(e) {
+				this.count = e
+			},
+			useVirtual() {
+				if (!this.address.id) {
+					uni.showToast({
+						title: '还没有选择配送地址呢',
+						icon: 'none'
+					})
+					return
+				}
+				if (!this.addressMy.trim()) {
+					uni.showToast({
+						title: '必须输入虚拟秘钥',
+						icon: 'none'
+					})
+					return
+				}
+				this.$api('order.virtual', {
+					goods_list: [{
+						dispatch_type: "express",
+						goods_id: this.curSku.goods_id,
+						goods_num: this.count,
+						goods_price: this.curSku.price,
+						// sku_price_id: this.curSku.id,
+					}],
+					from: 'alone', // that.from,
+					address_id: this.address.id,
+					coupons_id: 0, //that.couponId,
+					remark: '',
+					order_type: 'goods', // that.orderType,
+					buy_type: 'buy_type', //that.grouponBuyType,
+					address: this.addressMy
+				})
+					.then(r => {
+						let params = {
+						order_sn: r.data.order_sn,
+						payment: 'wechat'
+					}
+					if (uni.getStorageSync('openid')) {
+						params.openid = uni.getStorageSync('openid');
+					}
+					this.$api('pay.prepay', params).then(res => {
+						if (res.code === 1) {
+							if (res.data === 'no_openid') {
+								uni.hideLoading();
+								uni.showModal({
+									title: '微信支付',
+									content: '点击确定后请再次使用微信支付',
+									success: function(res) {
+										if (res.confirm) {
+											//静默获取openid
+											let wechat = new Wechat();
+											wechat.wxOfficialAccountBaseLogin();
+										} else if (res.cancel) {
+											console.log('用户点击取消');
+										}
+									},
+									fail: (err) => {
+										uni.hideLoading();
+									}
+								});
+
+							} else {
+								uni.hideLoading();
+								let payData = res.data.pay_data
+								uni.requestPayment({
+									provider: 'wxpay',
+									timeStamp: payData.timeStamp,
+									nonceStr: payData.nonceStr,
+									package: payData.package,
+									signType: payData.signType,
+									paySign: payData.paySign,
+									success: _ => {
+										this.$Router.replace({
+											path: '/pages/order/payment/result',
+											query: {
+												orderSn: r.data.order_sn,
+												type: 'wechat',
+												pay: 1
+											}
+										});
+										// uni.navigateBack()
+									},
+									fail: err => {
+										console.log('支付取消或者失败:', err);
+										if (err.errMsg !== "requestPayment:fail cancel") {
+											this.$Router.replace({
+												path: '/pages/order/payment/result',
+												query: {
+													orderSn: r.data.order_sn,
+													type: 'wechat',
+													pay: 0
+												}
+											});
+										}
+									}
+								});
+							}
+						} else {
+							uni.hideLoading();
+							uni.showToast({
+								title: res.msg,
+								icon: 'none'
+							})
+						}
+					})
+					})
+			},
+			payByOther() {
+				this.$api('order.createOrder', {
+					goods_list: [{
+						dispatch_type: "express",
+						goods_id: this.curSku.goods_id,
+						goods_num: this.count,
+						goods_price: this.curSku.price,
+						// sku_price_id: this.curSku.id,
+					}],
+					from: 'alone', // that.from,
+					address_id: this.address.id,
+					coupons_id: 0, //that.couponId,
+					remark: '',
+					order_type: 'goods', // that.orderType,
+					buy_type: 'buy_type', //that.grouponBuyType,
+				}).then(r => {
+					this.show = true
+					this.shareObj = {
+						title: '请你送Ta一个玩偶',
+						imageUrl: this.image,
+						path: `/pages/goods/mh/sku?id=${this.$Route.query.id}&orderSn=${r.data.order_sn}&sId=${this.$Route.query.sId}`
+					}
+				})
+			},
+			doOtherPay() {
+				let params = {
+						order_sn: this.$Route.query.orderSn,
+						payment: 'wechat'
+					}
+					if (uni.getStorageSync('openid')) {
+						params.openid = uni.getStorageSync('openid');
+					}
+					this.$api('pay.prepay', params)
+						.then(res => {
+							let payData = res.data.pay_data
+								uni.requestPayment({
+									provider: 'wxpay',
+									timeStamp: payData.timeStamp,
+									nonceStr: payData.nonceStr,
+									package: payData.package,
+									signType: payData.signType,
+									paySign: payData.paySign,
+									success: _ => {
+										this.$Router.replace({
+											path: '/pages/order/payment/result',
+											query: {
+												orderSn: r.data.order_sn,
+												type: 'wechat',
+												pay: 1
+											}
+										});
+										// uni.navigateBack()
+									},
+									fail: err => {
+										console.log('支付取消或者失败:', err);
+										if (err.errMsg !== "requestPayment:fail cancel") {
+											this.$Router.replace({
+												path: '/pages/order/payment/result',
+												query: {
+													orderSn: r.data.order_sn,
+													type: 'wechat',
+													pay: 0
+												}
+											});
+										}
+									}
+								});
+						})
+			},
+			getPayInfo() {
+				this.$api('order.other', {order_sn: this.$Route.query.orderSn})
+					.then(r => {
+						this.showOtherBuy = true
+
+						let { consignee, total_fee, address, province_name, city_name, area_name, phone } = r.data
+						this.otherPayInfo = {
+							consignee,
+							total_fee,
+							address, province_name, city_name, area_name, phone
+						}
+					})
 			}
 		},
 		computed: {
@@ -317,10 +574,15 @@
       }),
     },
 		watch: {
-			'curSku.count': {
+			'count': {
 				handler() {
 					this.getTotal()
 				}
+			}
+		},
+		onShareAppMessage({from}) {
+			if (from == 'button') {
+				return this.shareObj
 			}
 		}
 	}
@@ -588,5 +850,47 @@
 			}
 		}
 	}
+}
+
+.address{
+				border: 1rpx solid #efefef;
+				padding:30rpx 20rpx;
+				border-radius: 6rpx;
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				margin-bottom: 30rpx;
+				.left{
+					flex: 1;
+				}
+				.t1{
+					font-size: 28rpx;
+					
+				}
+				.t2{
+					font-size: 26rpx;
+					color: #666;
+					margin-top: 10rpx;
+				}
+				.right{
+					image{
+						width: 50rpx;
+						height: 50rpx;
+					}
+				}
+			}
+
+button{
+  &.reset{
+    padding: 0 ;
+    font-size: inherit;
+    line-height: inherit;
+    background-color: transparent;
+    color: inherit;
+    margin: 0 ;
+    &::after{
+      border: none;
+    }
+  }
 }
 </style>
