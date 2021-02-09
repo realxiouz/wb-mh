@@ -165,6 +165,9 @@
 				</div>
 			</div>
 		</shopro-modal>
+
+		<shopro-login-modal></shopro-login-modal>
+
 	</view>
 </template>
 
@@ -178,7 +181,7 @@
 		onLoad(opt) {
       this.getGoodsDetail()
 			this.getDefaultAddress()
-
+			wx.hideShareMenu()
 			if (this.$Route.query.orderSn) {
 				this.getPayInfo()
 			}
@@ -209,7 +212,15 @@
 		},
 		methods:{
 			back(){
-				uni.navigateBack()
+				let n = getCurrentPages().length
+				console.log(n)
+				if (n == 1) {
+					wx.reLaunch({
+						url: '/pages/index/index'
+					})
+				} else {
+					wx.navigateBack()
+				}
 			},
 			showShade(type){
 				if(type==1){

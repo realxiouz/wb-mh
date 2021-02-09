@@ -232,7 +232,6 @@ export default {
 			this.screenShotPreviewImage();
 		}
 		// #endif
-		console.log('sh', this.statusBarHeight)
 	},
 	onShow() {
 		this.$store.commit('CART_NUM', this.cartNum);
