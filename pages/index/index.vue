@@ -14,15 +14,15 @@
 				</cu-custom>
 			</view> -->
 			<div :style="{ background: bgcolor, height: `${navBarHeight}px`, padding: navBarPadding }" class="flex align-center">
-				<img src="/static/imgs/logo.png" style="height:36rpx;margin-right:10rpx;" mode="heightFix" />
+				<img src="/static/imgs/logo.jpeg" style="width:144rpx;margin-right:10rpx;" mode="widthFix" />
 				<div style="font-weight:bold;color:#fff;font-size:16px;">泡泡玛特抽奖机</div>
 			</div>
-			<div :style="{ background: bgcolor}" class="flex align-center justify-around" style="height:80rpx;">
+			<!-- <div :style="{ background: bgcolor}" class="flex align-center justify-around" style="height:80rpx;">
 				<div>推荐</div>
 				<div>分类</div>
 				<img src="/static/imgs/pppt.png" style="width:76px;" mode="widthFix" alt="">
 				<div>发售日历</div>
-			</div>
+			</div> -->
 			<view class="content_box" style="margin-top: -4rpx;overflow: hidden;">
 				<scroll-view class="scroll-box" scroll-y scroll-with-animation enable-back-to-top>
 					<block v-if="template" v-for="(item, index) in template" :key="index">
@@ -96,6 +96,8 @@
 			</view>
 			<!-- #endif -->
 		</view>
+
+		<l-barrage ref="lBarrage" @end="onEnd" :minTime="14" :maxTime="20" />
 	</view>
 </template>
 
@@ -116,6 +118,7 @@ import shTitleCard from './components/sh-title-card.vue';
 import shOrder from './components/sh-order.vue';
 import shWallet from './components/sh-wallet.vue';
 import qinGoods from './components/qin-goods';
+	import lBarrage from '@/components/l-barrage/l-barrage.vue'
 
 // #ifdef MP-WEIXIN
 import { HAS_LIVE } from '@/env';
@@ -154,6 +157,7 @@ export default {
 		shLive,
 		// #endif
 		qinGoods,
+		lBarrage,
 	},
 	data() {
 		return {
@@ -177,6 +181,8 @@ export default {
 				type: 'netWork'
 			},
 			netEmptyData: {},
+
+			barrageList: [],
 		};
 	},
 	computed: {
@@ -225,6 +231,22 @@ export default {
 			}
 		});
 		// #endif
+		this.barrageList = [{
+				text: '新年到，祝福来报到：大财、小财、意外财，财源滚滚',
+				icon: "https://img-cdn-tc.dcloud.net.cn/uploads/avatar/000/15/86/43_avatar_max.jpg"
+			}, {
+				text: '亲情、爱情、朋友情，份份真情',
+				icon: "https://img-cdn-tc.dcloud.net.cn/uploads/avatar/000/15/95/31_avatar_max.jpg"
+			}, {
+				text: '官运、财运、桃花运，运运亨通',
+				icon: "https://img-cdn-tc.dcloud.net.cn/uploads/avatar/000/93/95/05_avatar_max.jpg"
+			}, {
+				text: '爱人、亲人、家里人，人人平安',
+				icon: "https://img-cdn-tc.dcloud.net.cn/uploads/avatar/000/15/86/43_avatar_max.jpg"
+			}];
+			setTimeout(() => {
+				this.$refs.lBarrage.start(this.barrageList);
+			}, 500);
 	},
 	mounted() {
 		// #ifdef H5
@@ -300,8 +322,12 @@ export default {
 					}
 				});
 			});
-		}
+		},
 		// #endif
+		onEnd() {
+			console.log("一轮结束");
+			this.$refs.lBarrage.start(this.barrageList);
+		}
 	}
 };
 </script>

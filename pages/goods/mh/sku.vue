@@ -91,7 +91,7 @@
 							<input type="text" placeholder="输入地址" v-model="addressMy">
 						</div>
 					</div>
-					<view v-if="false" class="address" @click="chooseAddress">
+					<view v-if="type==2" class="address" @click="chooseAddress">
 						<view class="left" v-if="address.id">
 							<view class="t1">
 								{{`${address.consignee} ${address.phone}`}}
@@ -158,7 +158,8 @@
 					</view>
 					<div style="font-size:14px;color:#666;margin-bottom:24rpx;"><span style="font-weight:bold;color:#333;">总价:</span>{{otherPayInfo.total_fee}}</div>
 					<div @click="doOtherPay" class="flex align-center justify-around"
-						style="height:80rpx;width:260rpx;border-radius:40rpx;background:#FDC204;font-size:12px;color:#fff;margin:0 auto;">
+						:style="{background: canOtherPay ? '#FDC204' : '#666'}"
+						style="height:80rpx;width:260rpx;border-radius:40rpx;font-size:12px;color:#fff;margin:0 auto;">
 						确认赠送给Ta
 					</div>
 					<div style="height:32px"></div>
@@ -207,7 +208,8 @@
 				show: false,
 				showOtherBuy: false,
 				otherPayInfo: {},
-				addressMy: ''
+				canOtherPay: false,
+				addressMy: '',
 			};
 		},
 		methods:{
@@ -520,6 +522,13 @@
 				})
 			},
 			doOtherPay() {
+				if (!this.canOtherPay) {
+					uni.showToast({
+						title: '订单已经支付',
+						icon: 'none'
+					})
+					return
+				}
 				let params = {
 						order_sn: this.$Route.query.orderSn,
 						payment: 'wechat'
@@ -569,12 +578,13 @@
 					.then(r => {
 						this.showOtherBuy = true
 
-						let { consignee, total_fee, address, province_name, city_name, area_name, phone } = r.data
+						let { consignee, total_fee, address, province_name, city_name, area_name, phone, status_code  } = r.data
 						this.otherPayInfo = {
 							consignee,
 							total_fee,
 							address, province_name, city_name, area_name, phone
 						}
+						this.canOtherPay = status_code == 'nopay'
 					})
 			}
 		},

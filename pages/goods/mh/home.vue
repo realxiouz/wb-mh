@@ -48,9 +48,15 @@
 					请选择盲盒
 				</view>
 			</view>
-			<view class="b2">
-				<image src="../../static/image/temp13.png" mode="aspectFit"></image>
-				<text>点击查看商品详情</text>
+			<view class="b2" :class="{show: isShow}">
+				<div class="t" @click="toggleShow">
+					<image src="/static/imgs/up.png" mode="aspectFit"></image>
+					<text>{{isShow?'返回':'点击查看商品详情'}}</text>
+				</div>
+				<scroll-view scroll-y class="c">
+					<img :src="i" style="width:100%;" mode="widthFix" alt="" v-for="(i,inx) in images" :key="inx">
+					<rich-text :nodes="content" />
+				</scroll-view>
 			</view>
 		</view>
 		
@@ -74,6 +80,9 @@
         title: '',
         skus: [],
         image: '',
+				isShow: false,
+				// images: [],
+				content: '',
 			};
 		},
 		methods:{
@@ -94,10 +103,11 @@
           id: that.$Route.query.id
         }).then(res => {
           if (res.code === 1) {
-            let { title, sku_price, image} = res.data
+            let { title, sku_price, image, images, content} = res.data
             this.title = title
             this.skus = sku_price
             this.image = image
+						this.content = content.replace(/\<img/gi, '<img style="max-width:100%;height:auto"')
           }
           if (res.code == 0) {
             that.$tools.toast(res.msg);
@@ -112,6 +122,9 @@
 						sId: i.id
 					}
 				});
+			},
+			toggleShow() {
+				this.isShow = !this.isShow
 			}
 		},
     computed: {
@@ -220,6 +233,7 @@
 	}
 }
 .bottom{
+	height: 300rpx;
 	.b1{
 		height: 180rpx;
 		display: flex;
@@ -258,22 +272,40 @@
 		}
 	}
 	.b2{
-		height: 120rpx;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		background-color: white;
-		box-shadow: 0 0 40rpx rgba(0,0,0,0.1);
+		position: fixed;
+		left: 0;
+		right: 0;
+		bottom: -800rpx;
+		height: 920rpx;
 		border-top-left-radius: 60rpx;
 		border-top-right-radius: 60rpx;
-		
-		image{
-			width: 50rpx;
-			height: 50rpx;
-				margin-right: 20rpx;
-			text{
-				font-size: 26rpx;
+		overflow: hidden;
+		background-color: white;
+		box-shadow: 0 0 40rpx rgba(0,0,0,0.1);
+		transition: bottom .3s;
+		z-index: 100;
+		&.show{
+			bottom: 0;
+		}
+		.t{
+			height: 120rpx;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			image{
+				width: 50rpx;
+				height: 50rpx;
+					margin-right: 20rpx;
+				text{
+					font-size: 26rpx;
+				}
 			}
+		}
+		.c{
+			height: 800rpx;
+			padding: 0 24rpx;
+			display: flex;
+			flex-direction: column;
 		}
 	}
 	}
