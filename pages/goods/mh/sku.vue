@@ -85,13 +85,13 @@
 					</view>
 					<div class="item" v-if="type==1">
 						<view class="lable">
-							秘钥：
+							地址：
 						</view>
 						<div class="value">
-							<input type="text" placeholder="输入秘钥" v-model="addressMy">
+							<input type="text" placeholder="输入地址" v-model="addressMy">
 						</div>
 					</div>
-					<view class="address" @click="chooseAddress">
+					<view v-if="false" class="address" @click="chooseAddress">
 						<view class="left" v-if="address.id">
 							<view class="t1">
 								{{`${address.consignee} ${address.phone}`}}
@@ -244,7 +244,7 @@
 				if(type==1){
 					if (!this.addressMy.trim()) {
 						uni.showToast({
-							title: '必须输入虚拟秘钥',
+							title: '必须输入地址',
 							icon: 'none'
 						})
 						return
@@ -390,16 +390,16 @@
 				this.count = e
 			},
 			useVirtual() {
-				if (!this.address.id) {
-					uni.showToast({
-						title: '还没有选择配送地址呢',
-						icon: 'none'
-					})
-					return
-				}
+				// if (!this.address.id) {
+				// 	uni.showToast({
+				// 		title: '还没有选择配送地址呢',
+				// 		icon: 'none'
+				// 	})
+				// 	return
+				// }
 				if (!this.addressMy.trim()) {
 					uni.showToast({
-						title: '必须输入虚拟秘钥',
+						title: '必须输入地址',
 						icon: 'none'
 					})
 					return
@@ -413,7 +413,7 @@
 						// sku_price_id: this.curSku.id,
 					}],
 					from: 'alone', // that.from,
-					address_id: this.address.id,
+					// address_id: this.address.id,
 					coupons_id: 0, //that.couponId,
 					remark: '',
 					order_type: 'goods', // that.orderType,
