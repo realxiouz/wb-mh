@@ -1,22 +1,24 @@
 <template>
 	<!-- 新品推荐 -->
-	<view class="hot-goods mx20 mb10" v-if="goodsList.length">
+	<view class="hot-goods mx20" v-if="goodsList.length" style="background:#fff;">
 		<div style="height:100rpx;padding-left: 10rpx;" class="flex align-center">
       <img src="/static/imgs/xptj.jpg" style="height:60rpx;" mode='heightFix' alt="">
     </div>
     <scroll-view scroll-x>
-      <view class="goods-item" v-for="(item,index) in goodsList" :key="index" @click="jump('/pages/goods/mh/home', { id: item.id })">
-        <image :src="item.image" mode="aspectFill"></image>
-        <view class="text">
-          <view class="left">
-            <text class="t1">{{item.title}}</text>
-            <text class="t2">{{item.subtitle}}</text>
-          </view>
-          <view class="right">
-            {{item.price}}
-          </view>
-        </view>
-      </view>
+			<div style="display: inline-flex;white-space: nowrap;padding-bottom: 40rpx;">
+				<view class="goods-item" v-for="(item,index) in goodsList" :key="index" @click="jump('/pages/goods/mh/home', { id: item.id })">
+					<image :src="item.image" mode="aspectFill"></image>
+					<view class="text">
+						<view class="left">
+							<text class="t1">{{item.title}}</text>
+							<text class="t2">{{item.subtitle}}</text>
+						</view>
+						<view class="right">
+							{{item.price}}
+						</view>
+					</view>
+				</view>
+			</div>
     </scroll-view>
 	</view>
 </template>
@@ -103,7 +105,7 @@ export default {
   overflow: hidden;
   background-color: white;
   margin-right: 16rpx;
-  box-shadow:  10rpx 20rpx 30rpx rgba(0,0,0,0.07);
+  box-shadow:  10rpx 10rpx 10rpx rgba(0,0,0,0.07);
   width: 300rpx;
   height: 420rpx;
   image{

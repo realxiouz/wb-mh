@@ -9,7 +9,7 @@
 				<!-- <shopro-goods-card :detail="goods" :isTag="true"></shopro-goods-card> -->
 				<div style="background:#fff;" @click="jump('/pages/goods/mh/home', { id: goods.id })">
 					<img :src="goods.image" style="width:345rpx;height:345rpx" />
-					<div class="flex align-center" style="padding:0 20rpx;">
+					<div class="flex align-center" style="padding:10rpx;">
 						<div style="flex:1;">
 							<div style="font-size:28rpx;font-weight:bold;">{{goods.title}}</div>
 							<div style="font-size:26rpx;color:#444;">{{goods.subtitle}}</div>
@@ -108,7 +108,7 @@ export default {
 <style lang="scss">
 // 为你推荐
 .hot-goods {
-	background: linear-gradient(#fff 200rpx, #f6f6f6 500rpx, #f6f6f6);
+	background: #fff;
 	border-radius: 20rpx;
 	.goods-list {
 		flex-wrap: wrap;
@@ -117,8 +117,10 @@ export default {
 			margin-right: 20rpx;
 			margin-bottom: 20rpx;
 			width: 345rpx;
-			box-shadow: 0px 0px 10rpx 4rpx rgba(199, 199, 199, 0.22);
+			// box-shadow: 0px 0px 10rpx 4rpx rgba(199, 199, 199, 0.22);
+			box-shadow: 10rpx 10rpx 10rpx rgba(0, 0, 0, 0.07);
 			border-radius: 20rpx;
+			overflow: hidden;
 			&:nth-child(2n) {
 				margin-right: 0;
 			}

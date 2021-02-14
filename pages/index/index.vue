@@ -23,7 +23,7 @@
 				<img src="/static/imgs/pppt.png" style="width:76px;" mode="widthFix" alt="">
 				<div>发售日历</div>
 			</div> -->
-			<view class="content_box" style="margin-top: -4rpx;overflow: hidden;">
+			<view class="content_box" style="overflow: hidden;">
 				<scroll-view class="scroll-box" scroll-y scroll-with-animation enable-back-to-top>
 					<block v-if="template" v-for="(item, index) in template" :key="index">
 						<!-- 搜索 -->
