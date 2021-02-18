@@ -115,6 +115,21 @@
 				"title": "自定义页面",
 				"group": "自定义页面"
 			}
+		},
+		{
+			"path": "pages/message/index",
+			"name": "view",
+			"style": {
+				"navigationBarTitleText": "我的收获",
+				"navigationStyle": "custom"
+
+			},
+			"meta": {
+				"auth": false,
+				"async": true,
+				"title": "自定义页面",
+				"group": "自定义页面"
+			}
 		}
 
 	],
