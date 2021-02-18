@@ -9,9 +9,8 @@
 					</cu-custom>
 				</view>
 
-				<view class="user-head x-bc">
+				<!-- <view class="user-head x-bc">
 					<view class="x-f">
-						<!-- 微信小程序 -->
 						<view class="info-box">
 							<view class="x-f">
 								<view class="head-img-wrap">
@@ -44,19 +43,37 @@
 						</button>
 						<button v-if="userInfo.is_store" @tap="goStore" class="cu-btn merchant-btn">切换商家版</button>
 					</view>
-				</view>
+				</view> -->
 			</view>
 		</view>
-		<!-- 绑定手机 -->
-		<view class="notice-box x-bc pad" v-if="!userInfo.mobile && userInfo.nickname" @tap="jump('/pages/user/edit-phone', { fromType: 'bind' })">
+
+		<div class="q-info">
+			<div class="info-wrap">
+				<img class="ava" :src="userInfo.avatar || $IMG_URL + '/imgs/base_avatar.png'" alt="" @tap.stop="jump('/pages/user/info')">
+				<div style="height:60rpx" ></div>
+				<div class="name">{{ userInfo.nickname || '请登录~'}}</div>
+				<div class="g-r flex align-center">
+					<div class="item" @click="onGive">
+						<img src="http://box.softtiny.com/uploads/20210218/03808c3360cb2769d224f565ae85a550.png" style="width:48rpx;height:48rpx" alt="">
+						<div>我的赠送</div>
+					</div>
+					<div style="width:4rpx;height:28rpx;background:#eee;"></div>
+					<div class="item" @click="onGain">
+						<img src="http://box.softtiny.com/uploads/20210218/eb3a988f486d4c898c9c47f17a1ef710.png" style="width:48rpx;height:48rpx" alt="">
+						<div>我的收获</div>
+					</div>
+				</div>
+				<div style="height:60rpx;"></div>
+			</div>
+		</div>
+		<!-- <view class="notice-box x-bc pad" v-if="!userInfo.mobile && userInfo.nickname" @tap="jump('/pages/user/edit-phone', { fromType: 'bind' })">
 			<view class="notice-detail one-t">点击绑定手机号，确保账户安全</view>
 			<button class="bindPhone cu-btn">去绑定</button>
-		</view>
-		<!-- 绑定微信 -->
-		<view class="notice-box x-bc pad" v-if="false" @tap="jump('/pages/user/edit-phone', { fromType: 'bind' })">
+		</view> -->
+		<!-- <view class="notice-box x-bc pad" v-if="false" @tap="jump('/pages/user/edit-phone', { fromType: 'bind' })">
 			<view class="notice-detail one-t">绑定微信用户！</view>
 			<button class="bindPhone cu-btn">去绑定</button>
-		</view>
+		</view> -->
 	</view>
 </template>
 
@@ -128,6 +145,16 @@ export default {
 			} else if (this.platform === 'wxMiniProgram') {
 				this.$store.commit('FORCE_OAUTH', true);
 			}
+		},
+		onGive() {
+			uni.navigateTo({
+				url: `/pages/index/give`
+			})
+		},
+		onGain() {
+			uni.navigateTo({
+				url: `/pages/index/gain`
+			})
 		}
 	}
 };
@@ -280,6 +307,46 @@ export default {
 		font-family: PingFang SC;
 		font-weight: 500;
 		color: rgba(255, 255, 255, 1);
+	}
+}
+
+.q-info{
+	width: 700rpx;
+	border-radius: 16rpx;
+	background: #fff;
+	margin: -120rpx auto 10rpx;
+	position: relative;
+	// height: 200rpx;
+	.ava{
+		border-radius: 50%;
+		width: 120rpx;
+		height: 120rpx;
+		position: absolute;
+		top: -60rpx;
+		left: 50%;
+		margin-left: -60rpx;
+		z-index: 10;
+	}
+	.name {
+		text-align: center;
+		font-weight: bold;
+		font-size: 16px;
+		line-height: 80rpx;
+	}
+	.g-r{
+		.item{
+			width: 0;
+			flex: 1;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			font-size: 12px;
+			color: #ccc;
+			>img{
+				width: 80rpx;
+				height: 80rpx;
+			}
+		}
 	}
 }
 </style>

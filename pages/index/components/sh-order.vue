@@ -11,7 +11,7 @@
 			</view>
 			<view class="order-item y-f" @tap="jump('/pages/order/after-sale/list')">
 				<view class="y-f item-box">
-					<image class="order-img"  :src="$IMG_URL + '/imgs/user/tab55.png'" mode=""></image>
+					<image class="order-img"  src="http://static.81hbz.com/static/img/sold.png" mode=""></image>
 					<text class="item-title">退换货</text>
 					<!-- <view class="cu-tag badge"></view> -->
 				</view>
@@ -21,7 +21,7 @@
 		<view class="order-item y-f all-order" @tap="jump('/pages/order/list', { type: 'all' })">
 			<image class="cut-off--line"  :src="$IMG_URL + '/imgs/user/cut_off_line.png'" mode=""></image>
 			<view class="y-f item-box">
-				<image class="order-img"  :src="$IMG_URL + '/imgs/user/all_order.png'" mode="aspectFill"></image>
+				<image class="order-img"  src="http://static.81hbz.com/static/img/pending.png" mode="aspectFill"></image>
 				<text class="item-title">全部订单</text>
 				<!-- <view class="cu-tag badge" v-if="orderNum[order.type]">{{ orderNum[order.type] }}</view> -->
 			</view>
@@ -43,7 +43,7 @@ export default {
 				{
 					id: 1,
 					title: '待付款',
-					img: this.$IMG_URL + '/imgs/user/tab11.png',
+					img: `http://static.81hbz.com/static/img/paying.png`,
 					type: 'nopay'
 				},
 				// {
@@ -55,13 +55,13 @@ export default {
 				{
 					id: 3,
 					title: '待收货',
-					img: this.$IMG_URL + '/imgs/user/tab33.png',
+					img: 'http://static.81hbz.com/static/img/delivering.png',
 					type: 'noget'
 				},
 				{
 					id: 4,
 					title: '待评价',
-					img: this.$IMG_URL + '/imgs/user/tab44.png',
+					img: 'http://static.81hbz.com/static/img/commenting.png',
 					type: 'nocomment'
 				}
 				// {
@@ -93,6 +93,9 @@ export default {
 <style lang="scss">
 // 订单卡片
 .sh-order-box {
+	width: 700rpx;
+	margin: 0 auto;
+	border-radius: 16rpx;
 	height: 180rpx;
 	background: #fff;
 	.order-box {

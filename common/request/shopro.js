@@ -818,7 +818,18 @@ export default {
 			method: 'GET',
 			// desc: '佣金记录',
 		}
+	},
+
+	box: {
+		give: {
+			url: 'order/give',
+			auth: true,
+			method: 'GET',
+		},
+		gain: {
+			url: 'order/gain',
+			auth: true,
+			method: 'GET',
+		}
 	}
-
-
 };

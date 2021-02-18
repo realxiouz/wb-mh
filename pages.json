@@ -85,6 +85,36 @@
 				"title": "自定义页面",
 				"group": "自定义页面"
 			}
+		},
+		{
+			"path": "pages/index/give",
+			"name": "view",
+			"style": {
+				"navigationBarTitleText": "我的赠送",
+				"navigationStyle": "default"
+
+			},
+			"meta": {
+				"auth": false,
+				"async": true,
+				"title": "自定义页面",
+				"group": "自定义页面"
+			}
+		},
+		{
+			"path": "pages/index/gain",
+			"name": "view",
+			"style": {
+				"navigationBarTitleText": "我的收获",
+				"navigationStyle": "default"
+
+			},
+			"meta": {
+				"auth": false,
+				"async": true,
+				"title": "自定义页面",
+				"group": "自定义页面"
+			}
 		}
 
 	],

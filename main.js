@@ -4,7 +4,7 @@ import store from '@/common/store'
 import cuCustom from '@/static/colorui/components/cu-custom.vue'
 import router from '@/common/router'
 import tools from '@/common/utils/tools'
-import '@/common/utils/sdk/sdk-h5.js'
+// import '@/common/utils/sdk/sdk-h5.js'
 import {
 	API_URL,
 	IMG_URL
@@ -37,12 +37,12 @@ const app = new Vue({
 });
 
 
-// #ifdef H5
-import wxsdk from '@/common/wechat/sdk'
+// // #ifdef H5
+// import wxsdk from '@/common/wechat/sdk'
 
-Vue.prototype.$wxsdk = wxsdk;
-RouterMount(app, '#app');
-// #endif
+// Vue.prototype.$wxsdk = wxsdk;
+// RouterMount(app, '#app');
+// // #endif
 
 // #ifndef H5
 app.$mount();
