@@ -182,7 +182,7 @@
         "usingComponents" : {
             "subscribe" : "plugin-private://wx2b03c6e691cd7370/components/subscribe/subscribe"
         },
-        "appid" : "wx969a348e67b10fee",
+        "appid" : "wx29219196e140b0b6",
         "setting" : {
             "urlCheck" : false,
             "es6" : true,

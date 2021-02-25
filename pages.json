@@ -27,34 +27,34 @@
 				"group": "商城" //分组
 			}
 		},
-		{
-			"path": "pages/index/category",
-			"name": "category",
-			"style": {
-				"navigationBarTitleText": "分类"
+		// {
+		// 	"path": "pages/index/category",
+		// 	"name": "category",
+		// 	"style": {
+		// 		"navigationBarTitleText": "分类"
 
-			},
-			"meta": {
-				"auth": false,
-				"async": true,
-				"title": "分类",
-				"group": "商城"
-			}
-		},
-		{
-			"path": "pages/index/cart",
-			"name": "cart",
-			"style": {
-				"navigationBarTitleText": "购物车"
+		// 	},
+		// 	"meta": {
+		// 		"auth": false,
+		// 		"async": true,
+		// 		"title": "分类",
+		// 		"group": "商城"
+		// 	}
+		// },
+		// {
+		// 	"path": "pages/index/cart",
+		// 	"name": "cart",
+		// 	"style": {
+		// 		"navigationBarTitleText": "购物车"
 
-			},
-			"meta": {
-				"auth": false,
-				"async": true,
-				"title": "购物车",
-				"group": "商城"
-			}
-		},
+		// 	},
+		// 	"meta": {
+		// 		"auth": false,
+		// 		"async": true,
+		// 		"title": "购物车",
+		// 		"group": "商城"
+		// 	}
+		// },
 		{
 			"path": "pages/index/user",
 			"name": "user",
