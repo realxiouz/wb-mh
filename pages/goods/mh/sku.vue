@@ -8,7 +8,7 @@
 			<view class="count-down">
 				<image src="/static/imgs/timer.png" mode="aspectFit"></image>
 				<text>剩余抽盒时间：</text>
-				<text class="num">123s</text>
+				<text class="num">{{count1}}s</text>
 			</view>
 			<view class="box-content">
 				<view class="top">
@@ -32,14 +32,14 @@
 			</view>
 		</view>
 		<view class="tab">
-			<view class="item">
+			<!-- <view class="item">
 				<image src="/static/imgs/tsk.png" mode="aspectFit"></image>
 				<text>提示卡</text>
 			</view>
 			<view class="item">
 				<image src="/static/imgs/xsk.png" mode="aspectFit"></image>
 				<text>显示卡</text>
-			</view>
+			</view> -->
 		</view>
 		<view class="btn-group">
 			<view class="btn btn1" @click="showShade(1)">
@@ -186,7 +186,12 @@
 			if (this.$Route.query.orderSn) {
 				this.getPayInfo()
 			}
+			this.count1 = this.$Route.query.t || 180
+			this.startTimer()
     },
+		onUnload() {
+			this.t && clearInterval(this.t)
+		},
 		components:{
 			uniNumberBox,
 		},
@@ -210,6 +215,8 @@
 				otherPayInfo: {},
 				canOtherPay: false,
 				addressMy: '',
+
+				count1: 0,
 			};
 		},
 		methods:{
@@ -265,10 +272,10 @@
           id: that.$Route.query.id
         }).then(res => {
           if (res.code === 1) {
-            let { title, sku_price, image, } = res.data
+            let { title, sku_price, image, image_detail } = res.data
             this.title = title
             this.skus = sku_price
-            this.image = image
+            this.image = image_detail
 
 						this.curSku = {...this.skus.find(i => i.id == this.$Route.query.sId), count: 1}
           }
@@ -586,6 +593,15 @@
 						}
 						this.canOtherPay = status_code == 'nopay'
 					})
+			},
+			startTimer() {
+				this.t = setInterval(_ => {
+					this.count1--
+					if (this.count1 <= 0) {
+						clearInterval(this.t)
+						this.canBuy = false
+					}
+				}, 1000)
 			}
 		},
 		computed: {
@@ -745,12 +761,12 @@
 	justify-content: space-around;
 	.btn{
 		width: 40%;
-		height: 60rpx;
+		height: 80rpx;
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		font-size: 28rpx;
-		border-radius: 60rpx;
+		border-radius: 80rpx;
 	}
 	.btn1{
 		border: 4rpx solid #333333;
