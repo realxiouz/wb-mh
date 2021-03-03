@@ -830,6 +830,11 @@ export default {
 			url: 'order/gain',
 			auth: true,
 			method: 'GET',
+		},
+		message: {
+			url: 'order/intelligence',
+			auth: true,
+			method: 'GET',
 		}
 	}
 };
