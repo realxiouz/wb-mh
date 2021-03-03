@@ -91,7 +91,9 @@ export default {
   },
   computed: {
     ...mapState('device', ['navBarHeight', 'navBarPadding']),
-    ...mapState('user', ['userInfo']),
+    ...mapState({
+				userInfo: state => state.user.userInfo,
+			}),
 	},
 	onReachBottom() {
 		if (this.isLoading || this.isEnd) {

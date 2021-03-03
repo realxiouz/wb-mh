@@ -44,7 +44,7 @@
 						<div>{{i.content}}</div>
 					</div>
 				</div>
-				<div v-if="userInfo.id==goods.user_id&&!comment.reply.length" @click="onComment(comment.id)" class="flex align-center">
+				<div v-if="userInfo.id==goods.user_id" @click="onComment(comment.id)" class="flex align-center">
 					<div class="flex-sub"></div>
 					<div class="cuIcon-comment" style="font-size:20px;"></div>
 					<div style="font-size:14px;">回复Ta</div>
@@ -69,6 +69,7 @@
 		onLoad(opt) {
 			this.opt = opt
 			// this.getData()
+			console.log(this.userInfo)
 		},
 		onShow() {
 			this.getData(true)
@@ -118,7 +119,9 @@
 			}
 		},
 		computed: {
-    	...mapState('user', ['userInfo']),
+			...mapState({
+				userInfo: state => state.user.userInfo,
+			}),
 		}
 	}
 </script>
