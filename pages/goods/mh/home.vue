@@ -1,5 +1,5 @@
 <template>
-	<view>
+	<view style="background-image: linear-gradient(to bottom,#7F3CEE,#608BE7);">
     
 		<view class="content">
       <div :style="{ height: `${navBarHeight}px`, padding: navBarPadding }" class="flex align-center" @click="back">
@@ -22,10 +22,10 @@
     border-left: 40rpx solid transparent;
     border-right: 40rpx solid transparent; 
     height: 0; 
-    width: 506rpx;"></div>
+    width: 496rpx;"></div>
 					<view class="box-list">
 						<view class="item" v-for="(i,inx) in skus" :key="inx">
-              <image :src="i.stock>0 ? image_unsold : image_sold" mode="aspectFit" @click="goSku(i)" />
+              <image :src="i.stock>0 ? image_unsold : image_sold" style="width:100%;height:100%;" @click="goSku(i)" />
 							<template v-if="i.stock>0">
 							<view class="position" >
 								{{inx+1}}
@@ -181,7 +181,7 @@
 
 <style lang="scss">
 .content{
-	background-image: linear-gradient(to bottom,#7F3CEE,#608BE7);
+	// background-image: linear-gradient(to bottom,#7F3CEE,#608BE7);
 	height: calc(100vh - 300rpx);
 	.head{
 		height: 88rpx;
@@ -249,12 +249,12 @@
 			.box-list{
 				display: flex;
 				flex-wrap: wrap;
-				width: 506rpx;
+				width: 500rpx;
 				.item{
 					width: 125rpx;
 					height: 125rpx;
 					position: relative;
-					margin: 0 2rpx 2rpx 0;
+					// margin: 0 2rpx 2rpx 0;
 					background: #000;
 					&:nth-child(4) {
 						margin-right: 0;

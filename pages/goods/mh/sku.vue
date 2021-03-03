@@ -207,7 +207,7 @@
 				title: '',
 				image: '',
 				skus: [],
-				total: '0.00',
+				// total: '0.00',
 				count: 1,
 
 				show: false,
@@ -261,6 +261,13 @@
 					this.showShade1=false
 					this.useVirtual()
 				}else if (type==2){
+					if (!this.address.id) {
+						uni.showToast({
+							title: '还没有选择配送地址呢',
+							icon: 'none'
+						})
+						return
+					}
 					this.showShade1=false
 					this.createOrder()
 				}
@@ -391,10 +398,10 @@
 					})
 						})
 			},
-			getTotal() {
-				let t = this.count * this.curSku.price
-				this.total = t.toFixed(2)
-			},
+			// getTotal() {
+			// 	let t = this.count * this.curSku.price
+			// 	this.total = t.toFixed(2)
+			// },
 			onChange(e) {
 				this.count = e
 			},
@@ -609,14 +616,17 @@
       ...mapState({
         userInfo: state => state.user.userInfo
       }),
-    },
-		watch: {
-			'count': {
-				handler() {
-					this.getTotal()
-				}
+			total() {
+				return (this.count * this.curSku.price).toFixed(2)
 			}
-		},
+    },
+		// watch: {
+		// 	'count': {
+		// 		handler() {
+		// 			this.getTotal()
+		// 		}
+		// 	}
+		// },
 		onShareAppMessage({from}) {
 			if (from == 'button') {
 				return this.shareObj

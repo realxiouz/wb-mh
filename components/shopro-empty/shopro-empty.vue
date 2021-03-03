@@ -41,7 +41,7 @@ export default {
 			if (this.emptyData.type === 'netWork') {
 				this.$emit('click');
 			} else {
-				this.tools.routerTo(emptyData.path);
+				this.tools.routerTo(this.emptyData.path);
 			}
 		}
 	}

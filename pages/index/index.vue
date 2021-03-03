@@ -15,7 +15,7 @@
 			</view> -->
 			<div :style="{ background: bgcolor, height: `${navBarHeight}px`, padding: navBarPadding }" class="flex align-center">
 				<img src="/static/imgs/logo.jpeg" style="width:144rpx;margin-right:10rpx;" mode="widthFix" />
-				<div style="font-weight:bold;color:#fff;font-size:16px;">高能魔盒</div>
+				<div style="font-weight:bold;color:#fff;font-size:16px;">高能盲盒</div>
 			</div>
 			<!-- <div :style="{ background: bgcolor}" class="flex align-center justify-around" style="height:80rpx;">
 				<div>推荐</div>
