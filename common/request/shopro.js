@@ -835,6 +835,16 @@ export default {
 			url: 'order/intelligence',
 			auth: true,
 			method: 'GET',
+		},
+		list: {
+			url: 'order/messageList',
+			auth: true,
+			method: 'GET',
+		},
+		comment: {
+			url: 'order/message',
+			auth: true,
+			method: 'POST',
 		}
 	}
 };
