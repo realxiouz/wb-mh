@@ -15,7 +15,7 @@
           <div style="font-size: 18px;color: #888888;">消息</div>
         </div>
       </div>
-    <div style="margin-top:-36rpx; border-radius:20rpx;overflow:hidden;">
+    <div style="border-radius:20rpx;overflow:hidden;width: 700rpx;margin: -36rpx auto 0;">
       <div
         v-for="(i,inx) in list"
         :key="inx"
@@ -112,8 +112,7 @@ export default {
 
 .message-item{
   background: #fff;
-  width: 700rpx;
-  margin: 0 auto;
+  
   padding: 12rpx;
   border-bottom: 1rpx solid #ccc;
 	&:last-child{
