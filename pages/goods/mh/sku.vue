@@ -130,13 +130,16 @@
 		
 		<shopro-modal v-model="show">
 			<div slot="modalContent">
-				<div style="background:#fff;padding: 0 24rpx;">
+				<div style="background:#fff;padding: 0rpx;border-radius:16rpx;width:600rpx;">
 					<div style="padding:24rpx 0;font-weight:bold;font-size:16px;">温馨提示</div>
-					<div style="font-size:14px;color:#666;padding: 0 0 24rpx 0;">订单已生成,点击按钮,让Ta帮你付款吧~~~</div>
-					<button
+					<div style="font-size:14px;color:#666;padding: 0 0 24rpx 0;">订单已生成,选择支付方式,让Ta帮你付款吧~~~</div>
+					<button open-type="share" style="border-top:1rpx solid #c7c7c7;line-height:80rpx;color:lightseagreen;" class="reset btnx" @click="show=false">微信小程序</button>
+					<div class="btnx" @click="aliPay();show=false;showShade1=false">HTML网页支付</div>
+					<div class="btnx" @click.stop="show=false">取消</div>
+					<!-- <button
 						style="height:80rpx;width:260rpx;border-radius:40rpx;background:#FDC204;font-size:12px;color:#fff;margin:0 auto;border:none;"
-					 	open-type="share" class="reset flex align-center justify-around" @click="show=false">发给Ta</button>
-					<div style="height:36rpx;"></div>
+					 	open-type="share" class="reset flex align-center justify-around" @click="show=false">发给Ta</button> -->
+					<!-- <div style="height:36rpx;"></div> -->
 				</div>
 			</div>
 		</shopro-modal>
@@ -175,7 +178,8 @@
 <script>
 	import uniNumberBox from "@/components/uni-number-box/uni-number-box.vue"
   import { mapState } from 'vuex';
-	import Wechat from '@/common/wechat/wechat' 
+	import Wechat from '@/common/wechat/wechat'
+	import ShoproPay from '@/common/shopro-pay';
 
 
 	export default {
@@ -217,6 +221,8 @@
 				addressMy: '',
 
 				count1: 0,
+
+				order_sn: '',
 			};
 		},
 		methods:{
@@ -324,6 +330,11 @@
 					buy_type: 'buy_type', //that.grouponBuyType,
 					// groupon_id: that.grouponId
 				}).then(r => {
+
+					uni.navigateTo({
+						url: `/pages/order/payment/method?orderId=${r.data.id}`
+					})
+					return
 					let params = {
 						order_sn: r.data.order_sn,
 						payment: 'wechat'
@@ -512,6 +523,13 @@
 					})
 			},
 			payByOther() {
+				if (!this.address.id) {
+					uni.showToast({
+						title: '还没有选择配送地址呢',
+						icon: 'none'
+					})
+					return
+				}
 				this.$api('order.createOrder', {
 					goods_list: [{
 						dispatch_type: "express",
@@ -533,6 +551,8 @@
 						imageUrl: this.image,
 						path: `/pages/goods/mh/sku?id=${this.$Route.query.id}&orderSn=${r.data.order_sn}&sId=${this.$Route.query.sId}`
 					}
+
+					this.order_sn = r.data.order_sn
 				})
 			},
 			doOtherPay() {
@@ -609,6 +629,11 @@
 						this.canBuy = false
 					}
 				}, 1000)
+			},
+			aliPay() {
+				new ShoproPay('alipay', {
+					order_sn: this.order_sn
+				})
 			}
 		},
 		computed: {
@@ -939,5 +964,12 @@ button{
       border: none;
     }
   }
+}
+
+.btnx{
+	border-top: 1rpx solid #c7c7c7;
+	line-height: 80rpx;
+	text-align: center;
+	color: lightseagreen;
 }
 </style>

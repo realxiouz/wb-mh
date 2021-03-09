@@ -244,7 +244,7 @@
 			flex-direction: column;
 			align-items: center;
 			.top{
-				width: 426rpx;
+				width: 416rpx;
 			}
 			.box-list{
 				display: flex;
