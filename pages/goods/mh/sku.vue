@@ -184,14 +184,16 @@
 
 	export default {
 		onLoad(opt) {
-      this.getGoodsDetail()
-			this.getDefaultAddress()
+			this.getGoodsDetail()
 			wx.hideShareMenu()
 			if (this.$Route.query.orderSn) {
 				this.getPayInfo()
 			}
 			this.count1 = this.$Route.query.t || 180
 			this.startTimer()
+			// #ifdef MP-WEIXIN
+			this.getDefaultAddress()
+			// #endif
     },
 		onUnload() {
 			this.t && clearInterval(this.t)
@@ -547,7 +549,7 @@
 				}).then(r => {
 					this.show = true
 					this.shareObj = {
-						title: '请你送Ta一个玩偶',
+						title: `${this.userInfo.nickname}请你送Ta一个玩偶`,
 						imageUrl: this.image,
 						path: `/pages/goods/mh/sku?id=${this.$Route.query.id}&orderSn=${r.data.order_sn}&sId=${this.$Route.query.sId}`
 					}
@@ -563,6 +565,7 @@
 					})
 					return
 				}
+				// #ifdef MP-WEIXIN
 				let params = {
 						order_sn: this.$Route.query.orderSn,
 						payment: 'wechat'
@@ -606,6 +609,18 @@
 									}
 								});
 						})
+				// #endif
+
+				// #ifdef H5
+				console.log('alipay')
+				this.$api('pay.prepay', {
+					payment: 'alipay',
+					order_sn: this.$Route.query.orderSn
+				}).then(r => {
+					// window.open(r.data.pay_data)
+					window.location.href = r.data.pay_data
+				})
+				// #endif
 			},
 			getPayInfo() {
 				this.$api('order.other', {order_sn: this.$Route.query.orderSn})
@@ -631,8 +646,27 @@
 				}, 1000)
 			},
 			aliPay() {
-				new ShoproPay('alipay', {
-					order_sn: this.order_sn
+				uni.showModal({
+					title: '支付宝支付',
+					content: '复制链接到外部浏览器',
+					confirmText: '复制链接',
+					success: (res) => {
+						if (res.confirm) {
+							uni.setClipboardData({
+								data: `https://www.8l27csy.cn/h5/#/pages/goods/mh/sku?id=${this.$Route.query.id}&orderSn=${this.order_sn}`,
+								success: function(data) {
+									//#ifdef H5
+									tools.toast('已复制到剪切板');
+									//#endif
+								},
+								fail: function(err) {},
+								complete: function(res) {}
+							});
+
+						} else if (res.cancel) {
+
+						}
+					}
 				})
 			}
 		},

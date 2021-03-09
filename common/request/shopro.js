@@ -548,7 +548,7 @@ export default {
 		},
 		other: {
 			url: 'order/detailOther',
-			auth: true,
+			auth: false,
 			method: 'GET',
 		},
 		itemDetail: {
@@ -653,7 +653,7 @@ export default {
 	pay: {
 		prepay: {
 			url: 'pay/prepay',
-			auth: true,
+			auth: false,
 			method: 'POST',
 			// desc: '发起支付',
 		},
@@ -738,7 +738,7 @@ export default {
 		},
 		detail: {
 			url: 'coupons/detail',
-			auth: true,
+			auth: false,
 			method: 'GET',
 			// desc: '购物券详情',
 		},

@@ -68,7 +68,9 @@ export default {
 		}
 	},
 	onLaunch: async function(options) {
+		// #ifdef MP-WEIXIN
 		this.$store.dispatch('device/setDeviceInfo')
+		// #endif
 		let that = this;
 		if (options.query.mode === 'save') {
 			//截图模式

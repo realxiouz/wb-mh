@@ -29,6 +29,10 @@ image {
 	box-sizing: border-box;
 }
 
+div{
+	box-sizing: border-box;
+}
+
 .round {
 	border-radius: 5000upx;
 }

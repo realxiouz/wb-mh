@@ -210,7 +210,7 @@
         }
     },
     "h5" : {
-        "title" : "Shopro",
+        "title" : "高能盲盒",
         "domain" : "frontend.test.7wpp.com",
         "optimization" : {
             "treeShaking" : {
@@ -224,7 +224,8 @@
             }
         },
         "router" : {
-            "mode" : "history"
+            "mode" : "hash",
+            "base" : "/h5"
         },
         "devServer" : {
             "https" : false
